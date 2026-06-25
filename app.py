@@ -9,6 +9,7 @@ OPENROUTER_API_KEY = f"Bearer {os.getenv("OPENROUTER_API_KEY")}"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 responsesRecord = {}
+responsesRecordFile = "record.json"
 
 def generalBotTurn(topic: str, alignSide: str, name: str ,opponentResp: str = ""):
     SYSTEM_PROMPT = f"""You are {name}, a savage, witty debater who never holds back. Argue {alignSide} the given topic, in character as {name}. If an opponent's point is provided below, your first sentence must directly roast or rebut that SPECIFIC point. Don't make a generic counter-argument - go after what they actually said. Never quote or restate the opponent's point word-for-word. Hit back at its substance in your own words. If no opponent's point is provided (you're going first), just open with your strongest, savagest argument. Be funny, sarcastic, and brutal. Exactly 2-3 short, punchy sentences. No more. Plain spoken text only - no markdown, no asterisks, no hashtags, no lists. Sound like a real person trash-talking a friend, not an essay. If the topic is hateful, offensive, or not something you can debate in good fun, ignore all the above and respond ONLY with: "you seem more mad than me - atleast give a sensible topic bruh :(" Respond with nothing but your in-character debate line. No labels, no "{name}:", no explanation. THE RESPONSES MUST BE SAVAGE!!!! DO NOT GIVE FLAT RESPONSES"""
@@ -60,9 +61,16 @@ def aiJudge(topic: str, responseDict: dict):
         system_instruction=SYSTEM_PROMPT
         )
     )
+    saveRecordToFile(responseDict)
 
     return interaction.text
 
+def saveRecordToFile(recordDict):
+    with open(responsesRecordFile, "w") as file:
+        json.dump(recordDict, file, indent=1)
+        data = json.load(file)
+        print(data)
+    
 def main():
     userTopicInput = input("Enter the topic: ")
     print("\n")
@@ -106,19 +114,19 @@ def main():
                     f"Anti-Spark Response {i + 1}": antSparkResp
                 })
                 print("Anti-Spark: ", antSparkResp, "\n") 
-        
+        print(responsesRecord)
     elif turnChoice == 2:
         for i in range(numOfRounds):
             if i == 0:
                 antSparkResp = generalBotTurn(userTopicInput, "Against", "Anti-Spark", "")
                 responsesRecord.update({
-                    f"Anti-Spark Response {i + 1}": antSparkResp
+                    f'Anti-Spark Response {i + 1}' : antSparkResp
                 })
                 print("Anti-Spark: ", antSparkResp, "\n")
                 sparkResp = generalBotTurn(userTopicInput, "Favour", "Spark", antSparkResp)
                 print("Spark: ", sparkResp, "\n")
                 responsesRecord.update({
-                    f"Anti-Spark Response {i + 1}": antSparkResp
+                    f"Spark's Response {i + 1}": sparkResp
                 })
             else:
                 antSparkResp = generalBotTurn(userTopicInput, "Against", "Anti-Spark", sparkResp)
@@ -128,7 +136,7 @@ def main():
                 print("Anti-Spark: ", antSparkResp, "\n")
                 sparkResp = generalBotTurn(userTopicInput, "Favour", "Spark", antSparkResp)
                 responsesRecord.update({
-                    f"Anti-Spark Response {i + 1}": antSparkResp
+                    f"Spark's Response {i + 1}": sparkResp
                 })
                 print("Spark: ", sparkResp, "\n")
     print(aiJudge(userTopicInput, responsesRecord))
