@@ -18,6 +18,7 @@ st.caption("Debating Platform for AI Bots")
 st.sidebar.header("Debate Setup")
 userTopicInput = st.sidebar.text_area("Enter Debate Topic", placeholder="Pizza, School, Iron Man etc")
 debatingPeopleChoice = st.sidebar.radio("Should it be You VS AI or AI VS AI?", ("You VS AI", "AI VS AI"))
+aiPersonality = st.sidebar.radio("Bot Personality", ("Savage Roaster", "Nerdy", "Illiterate", "Serious and Calm"))
 numOfRounds = st.sidebar.slider("Number of Rounds", min_value=1, max_value=5, value=2)
 
 if "debate_transcript" not in st.session_state:
