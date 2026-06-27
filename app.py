@@ -92,3 +92,40 @@ def saveRecordToFile(recordDict: dict, verDict):
     }
     with open(responsesRecordFile, "w") as file:
         json.dump(dataToSave, file, indent=1)
+
+def rankEachResp(topic, resp, opponentResp):
+    SYSTEM_PROMPT = "You are an AI Judge. You will be given an AI Bot response in a debate on a specific topic and you will be also given opponent's response in some cases. You will analyze the response from every perspective acting totally neutral - you will have to analyze on the basis of the strength of argument rather than logic because it's fun debate. Then you will JUST RETURN INTEGER VALUE RANKING THE RESPONSE OUT OF 10 - NOTHING ELSE. No markdown, no asterisks, no hashtags, no lists. Just a simple integer from 1 - 10!!!!!. Example Response: '4'"
+    try:
+        client = OpenRouter(
+            api_key=OPENROUTER_API_KEY,
+            server_url="https://ai.hackclub.com/proxy/v1"
+        )
+
+        response = client.chat.send(
+            model="qwen/qwen3-32b",
+            messages=[
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                },
+                {
+                    "role": "user",
+                    "content": f"Topic: {topic} | AI Bot Response: {resp} | Opponent's Previous Response: {opponentResp}"
+                }
+            ],
+            stream=False
+        )
+
+        content = response.choices[0].message.content
+
+        return content.strip()
+    except:
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        interaction = client.models.generate_content(
+            model="gemini-3.1-flash-lite",
+            contents=f"Topic: {topic} | AI Bot Response: {resp} | Opponent's Previous Response: {opponentResp}",
+            config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT
+            )
+        )
+        return interaction.text.strip()

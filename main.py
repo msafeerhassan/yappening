@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 import streamlit as st
-from app import generalBotTurn, aiJudge, saveRecordToFile
+from app import generalBotTurn, aiJudge, saveRecordToFile, rankEachResp
 
 load_dotenv()
 
@@ -63,11 +63,20 @@ if startDebate:
             if firstSpeaker == "Spark":
                 with st.chat_message("user"):
                     resp1 = generalBotTurn(userTopicInput, firstSide, firstSpeaker, opponentInp)
+                    with st.spinner("Judging Response Strength..."):
+                        score1 = rankEachResp(userTopicInput, resp1, opponentInp)
+                    st.caption(f"**Argument Strength:** {score1}/10")
             else:
                 with st.chat_message("assistant"):
-                    resp = generalBotTurn(userTopicInput, firstSide, firstSpeaker, opponentInp)
+                    resp1 = generalBotTurn(userTopicInput, firstSide, firstSpeaker, opponentInp)
+                    with st.spinner("Judging Response Strength..."):
+                        score1 = rankEachResp(userTopicInput, resp1, opponentInp)
+                    st.caption(f"**Argument Strength:** {score1}/10")
 
-            responsesRecord[f"{firstSpeaker} Response {i + 1}"] = resp1
+            responsesRecord[f"{firstSpeaker} Response {i + 1}"] = {
+                "text": resp1,
+                "score": score1
+            }
 
             if firstSpeaker == "Spark":
                 sparkResp = resp1
@@ -82,11 +91,20 @@ if startDebate:
             if secondSpeaker == "Spark":
                 with st.chat_message("user"):
                     resp2 = generalBotTurn(userTopicInput, secondSide, secondSpeaker, opponentInp)
+                    with st.spinner("Judging Response Strength..."):
+                        score2 = rankEachResp(userTopicInput, resp2, opponentInp)
+                    st.caption(f"**Argument Strength:** {score2}/10")
             else:
                 with st.chat_message("assistant"):
                     resp2 = generalBotTurn(userTopicInput, secondSide, secondSpeaker, opponentInp)
+                    with st.spinner("Judging Response Strength..."):
+                        score2 = rankEachResp(userTopicInput, resp2, opponentInp)
+                    st.caption(f"**Argument Strength:** {score2}/10")
             
-            responsesRecord[f"{secondSpeaker} Response {i + 1}"] = resp2
+            responsesRecord[f"{secondSpeaker} Response {i + 1}"] = {
+                "text": resp2,
+                "score": score2
+            }
 
             if secondSpeaker == "Anti-Spark":
                 antSparkResp = resp2
@@ -116,11 +134,13 @@ elif st.session_state.debate_transcript:
         
         if speaker == "Spark":
             with st.chat_message("user"):
-                st.write(f"**{key}:** {value}")
+                st.write(f"**{key}:** {value['text']}")
+                st.caption(f"**Argument Strength:** {value['score']}/10")
         else:
             with st.chat_message("assistant"):
-                st.write(f"**{key}:** {value}")
-    
+                st.write(f"**{key}:** {value['text']}")
+                st.caption(f"**Argument Strength:** {value['score']}/10")
+
     st.divider()
     st.subheader("Saved Verdict")
     with st.chat_message("court"):
