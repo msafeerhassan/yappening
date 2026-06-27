@@ -1,13 +1,21 @@
 {
  "debate_history": {
-  "Spark Response 1": {
-   "text": "Pizza is the ultimate culinary masterpiece because it is the only food that respects your right to be a lazy, gluttonous genius. If you think a slice of foldable perfection isn't the pinnacle of human invention, you probably think plain toast is a gourmet meal.",
+  "You Turn 1": {
+   "text": "Teacher is like the carpenter who lifts up a rotten wood up from a dirty stream and polish it to make it a luxury furniture piece for king's palace. He is someone who bridges the gap between you and Success selflessly.",
+   "score": "8"
+  },
+  "Anti-Spark Turn 2": {
+   "text": "That delusional carpenter metaphor is just a fancy way of saying teachers spend their lives trying to polish turds that were never meant to shine. You act like they are altruistic saints instead of underpaid babysitters just trying to survive until the final bell rings. Most of them aren't bridging gaps to success, they are just reading from a dusty manual that stopped being relevant twenty years ago.",
+   "score": "5"
+  },
+  "You Turn 3": {
+   "text": "History has witnessed polishing of turds to the leaders of the world through hand of experienced selfless teachers who devote themselves for nation building.",
    "score": "7"
   },
-  "Anti-Spark Response 1": {
-   "text": "Calling a soggy slab of greasy dough a pinnacle of invention is exactly the kind of low-bar thinking I expect from someone whose palate peaked in middle school. You are basically worshipping at the altar of cardboard and melted sadness while pretending your sheer lethargy is a sophisticated personality trait. It is not a masterpiece, it is just what you order when you are too inept to operate a stove.",
+  "Anti-Spark Turn 4": {
+   "text": "Calling a teacher selfless for doing a nine-to-five job is like calling a janitor a visionary for knowing which end of the mop to hold. Most of these people are just failed intellectuals who traded their ambitions for a dusty chalkboard and a pension plan. If they were actually shaping the world, we wouldnt be surrounded by such a spectacular collection of complete idiots.",
    "score": "6"
   }
  },
- "judge_verdict": "WINNER: Anti-Spark\n\nYour opponent brought a butter knife to a chainsaw fight by lazily dismissing the most iconic food on earth as mere toast. You tore them apart with the precision of a surgeon, labeling their love for dough as nothing more than a pathetic cry for help from someone who can\u2019t boil an egg. That roast about their middle school palate was the only thing in this room with any actual flavor. The loser really tried to frame gluttony as genius, but you proved that their culinary peak is just a deep-seated inability to function like a functional adult."
+ "judge_verdict": "WINNER: You\n\nYou took that absurd carpenter metaphor and turned it into an absolute weapon, forcing your opponent to acknowledge the very turds they were so obsessed with polishing. While you successfully elevated the narrative to nation-building, your opponent devolved into a bitter, resentful rant that sounded more like a failed student's diary entry than a debate. The weakest moment was your opponent's desperate attempt to equate a professional educator to a janitor, which honestly just made them look like they had never stepped foot inside a library. You won because you kept the moral high ground while your opponent was busy crying in the corner about their pension plan."
 }
