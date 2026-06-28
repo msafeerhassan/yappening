@@ -70,13 +70,13 @@ if st.session_state.setup_step and userTopicInput.strip():
                 
                 if firstSpeaker == "Spark":
                     with st.chat_message("user"):
-                        resp1 = generalBotTurn(userTopicInput, firstSide, firstSpeaker, opponentInp)
+                        resp1 = generalBotTurn(userTopicInput, firstSide, firstSpeaker, aiPersonality, opponentInp)
                         with st.spinner("Judging Response Strength..."):
                             score1 = rankEachResp(userTopicInput, resp1, opponentInp)
                         st.caption(f"**Argument Strength:** {score1}/10")
                 else:
                     with st.chat_message("assistant"):
-                        resp1 = generalBotTurn(userTopicInput, firstSide, firstSpeaker, opponentInp)
+                        resp1 = generalBotTurn(userTopicInput, firstSide, firstSpeaker,aiPersonality, opponentInp)
                         with st.spinner("Judging Response Strength..."):
                             score1 = rankEachResp(userTopicInput, resp1, opponentInp)
                         st.caption(f"**Argument Strength:** {score1}/10")
@@ -97,13 +97,13 @@ if st.session_state.setup_step and userTopicInput.strip():
             
                 if secondSpeaker == "Spark":
                     with st.chat_message("user"):
-                        resp2 = generalBotTurn(userTopicInput, secondSide, secondSpeaker, opponentInp)
+                        resp2 = generalBotTurn(userTopicInput, secondSide, secondSpeaker, aiPersonality, opponentInp)
                         with st.spinner("Judging Response Strength..."):
                             score2 = rankEachResp(userTopicInput, resp2, opponentInp)
                         st.caption(f"**Argument Strength:** {score2}/10")
                 else:
                     with st.chat_message("assistant"):
-                        resp2 = generalBotTurn(userTopicInput, secondSide, secondSpeaker, opponentInp)
+                        resp2 = generalBotTurn(userTopicInput, secondSide, secondSpeaker, aiPersonality, opponentInp)
                         with st.spinner("Judging Response Strength..."):
                             score2 = rankEachResp(userTopicInput, resp2, opponentInp)
                         st.caption(f"**Argument Strength:** {score2}/10")
@@ -120,7 +120,7 @@ if st.session_state.setup_step and userTopicInput.strip():
             
                 st.divider()
             st.subheader("The Verdict")
-            with st.chat_message("court"):
+            with st.chat_message("👨‍⚖️"):
                 verdict = aiJudge(userTopicInput, responsesRecord)
         
             if verdict:
@@ -158,7 +158,7 @@ if st.session_state.setup_step and userTopicInput.strip():
                 })
 
                 with st.chat_message("assistant"):
-                    aiResp = generalBotTurn(userTopicInput, "Against", "Anti-Spark", userInput)
+                    aiResp = generalBotTurn(userTopicInput, "Against", "Anti-Spark", aiPersonality, userInput)
                     with st.spinner("Judging Response Strength..."):
                         aiScore = rankEachResp(userTopicInput, aiResp, userInput)
                     st.caption(f"**Argument Strength:** {aiScore}/10")
@@ -183,14 +183,14 @@ if st.session_state.setup_step and userTopicInput.strip():
                         "text": chat['text'],
                         "score": chat['score']
                     }
-                with st.chat_message("court"):
+                with st.chat_message("👨‍⚖️"):
                     verdict = aiJudge(userTopicInput, formattedRecords)
                 if verdict:
                     st.session_state.verdict = verdict
                     saveRecordToFile(formattedRecords, verdict)
             else:
                 st.subheader("The Verdict")
-                with st.chat_message("court"):
+                with st.chat_message("👨‍⚖️"):
                     st.write(st.session_state.verdict)
 elif st.session_state.debate_transcript:
     st.subheader(f"Past Debate: *{userTopicInput}*")
